@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fruit Catch Game 🍎🍌</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background: #f7fff7;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #28a745;
+            margin-top: 10px;
+        }
+
+        #video {
+            margin-top: 10px;
+            border: 4px solid #28a745;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+        }
+
+        .controls {
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .status {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🍎 Fruit Catch Game 🍌</h1>
+
+    <img id="video" src="{{ url_for('video_feed') }}" width="640" height="480" alt="apple">
+
+    <div class="controls">
+        <button type="button" onclick="startGame(15)">Start (15s)</button>
+        <button type="button" onclick="startGame(30)">Start (30s)</button>
+        <button  type="button" onclick="startGame(60)">Start (1 min)</button>
+    </div>
+
+    <div class="status">
+        <p id="timer">⏱ Timer: 0s</p>
+        <p id="score">🏆 Score: 0</p>
+        <p id="winner"></p>
+    </div>
+
+    <script>
+        let countdown;
+
+function startGame(seconds) {
+    // tell backend to start the game
+    fetch(`/start_game?time=${seconds}`).then(() => {
+        document.getElementById('winner').textContent = '';
+        let timeLeft = seconds;
+        document.getElementById('timer').textContent = `⏱ Timer: ${timeLeft}s`;
+        document.getElementById('score').textContent = `🏆 Score: 0`;
+
+        clearInterval(countdown);
+        countdown = setInterval(() => {
+            timeLeft--;
+            document.getElementById('timer').textContent = `⏱ Timer: ${timeLeft}s`;
+
+            // fetch current score
+            fetch('/end_game')
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('score').textContent = `🏆 Score: ${data.score}`;
+                });
+
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                document.getElementById('winner').textContent = `🎉 Game Over!`;
+            }
+        }, 1000);
+    });
+
+        }
+    </script>
+</body>
+</html>

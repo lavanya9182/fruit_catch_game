@@ -1,0 +1,28 @@
+# Ignore virtual environments
+.venv/
+venv/
+ENV/
+
+# Ignore system and cache files
+__pycache__/
+*.pyc
+*.pyo
+*.DS_Store
+
+# Ignore media and large files
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.wav
+*.mp3
+*.zip
+*.tar
+*.gz
+*.jpg
+*.jpeg
+*.png
+
+# Ignore IDE and misc
+.vscode/
+.idea/
