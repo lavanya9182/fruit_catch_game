@@ -71,7 +71,8 @@ cd fruit_catch_game
 
 2. Run the game:
 
-```bash
+```
+python backend/app.py
 python fruit_detector.py
 ```
 
