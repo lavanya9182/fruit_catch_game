@@ -1,4 +1,4 @@
-Got it! Here's the **README** in a single Markdown code block for GitHub so the formatting and fonts stay consistent:
+
 
 ```markdown
 # 🍎 Fruit Catch Game 🍌
